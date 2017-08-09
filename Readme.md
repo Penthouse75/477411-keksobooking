@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Олег Орлов](https://up.htmlacademy.ru/javascript/10/user/477411).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Загорный] (https://htmlacademy.ru/profile/id452233).
 
 ---
 
