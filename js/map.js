@@ -12,42 +12,44 @@ var BOOKING_OFFER_FEATURESS = ['wifi', 'dishwasher', 'parking', 'washer', 'eleva
 
 var generateRandValue = function (minValue, maxValue) {
   return Math.round(minValue - 0.5 + Math.random() * (maxValue - minValue + 1));
-}
+};
 
 var generateRandBookingOfferFeaturess = function () {
-return [BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)]];
-}
+  return [BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)], BOOKING_OFFER_FEATURESS[generateRandValue(0, 5)]];
+};
 
 var generateUniqueRandValue = function (randValueArray) {
   for (var i = 0; i < randValueArray.length; i++) {
     for (var j = i + 1; j < randValueArray.length; j++) {
-      if (randValueArray[i] == randValueArray[j]) {
+      if (randValueArray[i] === randValueArray[j]) {
         randValueArray.splice(j, 1);
         j--;
-      };
-    };
-  };
+      }
+    }
+  }
   return randValueArray;
 };
 
 var convertBookingOfferType = function (bookingOfferType) {
-  switch(bookingOfferType) {
-  case 'flat':
-    return 'Квартира';
-  case 'house':
-    return 'Дом';
-  case 'bungalo':
-    return 'Бунгало';
+  switch (bookingOfferType) {
+    case 'flat':
+      return 'Квартира';
+    case 'house':
+      return 'Дом';
+    case 'bungalo':
+      return 'Бунгало';
+    default:
+      return '';
   }
-}
+};
 
 var splitBookingOfferFeatures = function (BookingOfferFeatures) {
   var outBookingOfferFeatures = '';
   for (var i = 0; i < BookingOfferFeatures.length; i++) {
-    outBookingOfferFeatures = outBookingOfferFeatures + '<span class="feature__image feature__image--' +  BookingOfferFeatures[i] + '"></span>';
+    outBookingOfferFeatures = outBookingOfferFeatures + '<span class="feature__image feature__image--' + BookingOfferFeatures[i] + '"></span>';
   }
   return outBookingOfferFeatures;
-}
+};
 
 /*
  * Generate 8 object booking and init random value
@@ -57,14 +59,14 @@ var ObjectBooking = [];
 for (var i = 0; i < 8; i++) {
   ObjectBooking[i] = {
     author: {
-      avatar : 'img/avatars/user0' + (i + 1) + '.png'
+      avatar: 'img/avatars/user0' + (i + 1) + '.png'
     },
     offer: {
       title: BOOKING_OFFER_TITLES[generateRandValue(0, 7)],
       address: {
         location: {
-           x: generateRandValue(300, 900),
-           y: generateRandValue(100, 500)
+          x: generateRandValue(300, 900),
+          y: generateRandValue(100, 500)
         }
       },
       price: generateRandValue(1000, 1000000),
@@ -77,7 +79,7 @@ for (var i = 0; i < 8; i++) {
       description: '',
       photos: {}
     },
-  }
+  };
 }
 
 /*
@@ -87,7 +89,7 @@ var pinBlockAll = document.querySelector('.tokyo__pin-map');
 
 var fragmentPinBlockAll = document.createDocumentFragment();
 
-for (var i = 0; i < 8; i++) {
+for (i = 0; i < 8; i++) {
   var pinObjectBooking = document.createElement('div');
 
   pinObjectBooking.className = 'pin';
@@ -112,7 +114,7 @@ elementTemplateObjectBooking.querySelector('.lodge__price').innerHTML = ObjectBo
 
 elementTemplateObjectBooking.querySelector('.lodge__type').textContent = convertBookingOfferType(ObjectBooking[0].offer.type);
 
-elementTemplateObjectBooking.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + ObjectBooking[0].offer.guests + ' гостей в ' +  ObjectBooking[0].offer.rooms + ' комнатах';
+elementTemplateObjectBooking.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + ObjectBooking[0].offer.guests + ' гостей в ' + ObjectBooking[0].offer.rooms + ' комнатах';
 elementTemplateObjectBooking.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + ObjectBooking[0].offer.checkin + ', выезд до ' + ObjectBooking[0].offer.checkout;
 
 elementTemplateObjectBooking.querySelector('.lodge__features').innerHTML = splitBookingOfferFeatures(ObjectBooking[0].offer.features);
@@ -122,11 +124,10 @@ var pools = document.querySelectorAll('.dialog');
 var blocks = document.querySelectorAll('.dialog__panel');
 
 pools[0].removeChild(blocks[0]);
-pools[0].appendChild(elementTemplateObjectBooking)
+pools[0].appendChild(elementTemplateObjectBooking);
 
 /*
  * Change avatar first object booking over info panel
  */
-
 var avatar = document.querySelector('.dialog__title');
 avatar.children[0].src = ObjectBooking[0].author.avatar;
