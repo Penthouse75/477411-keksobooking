@@ -98,7 +98,7 @@ var pinObjectBookingCloseInfoPanel = function () {
   var infoPanel = document.querySelector('.dialog');
 
   infoPanel.classList.add('hidden');
-}
+};
 
 var infoPanelButtonCloseClickHandler = function () {
   pinObjectBookingCloseInfoPanel();
@@ -117,7 +117,7 @@ var pinObjectBookingOpenInfoPanel = function (evt) {
   infoPanel.classList.remove('hidden');
 
   showObjectBookingOnInfoPanel(objectBookings[currentPin.value]);
-}
+};
 
 var pinObjectBookingKeydownHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
