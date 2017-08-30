@@ -1,5 +1,8 @@
 'use strict';
 
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
 var BOOKING_OFFER_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 
 var BOOKING_OFFER_TYPES = ['flat', 'house', 'bungalo'];
@@ -54,10 +57,10 @@ var splitBookingOfferFeatures = function (BookingOfferFeatures) {
 /*
  * Generate 8 object booking and init random value
  */
-var ObjectBooking = [];
+var objectBookings = [];
 
 for (var i = 0; i < 8; i++) {
-  ObjectBooking[i] = {
+  objectBookings[i] = {
     author: {
       avatar: 'img/avatars/user0' + (i + 1) + '.png'
     },
@@ -83,6 +86,53 @@ for (var i = 0; i < 8; i++) {
 }
 
 /*
+ * Event Handler Info panel
+ */
+
+var pinObjectBookingCloseInfoPanel = function () {
+  var deactivePin = document.getElementsByClassName('pin--active');
+  if (deactivePin.length !== 0) {
+    deactivePin[0].classList.remove('pin--active');
+  }
+
+  var infoPanel = document.querySelector('.dialog');
+
+  infoPanel.classList.add('hidden');
+}
+
+var infoPanelButtonCloseClickHandler = function () {
+  pinObjectBookingCloseInfoPanel();
+};
+
+var pinObjectBookingOpenInfoPanel = function (evt) {
+  var deactivePin = document.getElementsByClassName('pin--active');
+  if (deactivePin.length !== 0) {
+    deactivePin[0].classList.remove('pin--active');
+  }
+
+  var currentPin = evt.currentTarget;
+  currentPin.classList.add('pin--active');
+
+  var infoPanel = document.querySelector('.dialog');
+  infoPanel.classList.remove('hidden');
+
+  showObjectBookingOnInfoPanel(objectBookings[currentPin.value]);
+}
+
+var pinObjectBookingKeydownHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    pinObjectBookingOpenInfoPanel(evt);
+  }
+  if (evt.keyCode === ESC_KEYCODE) {
+    pinObjectBookingCloseInfoPanel(evt);
+  }
+};
+
+var pinObjectBookingClickHandler = function (evt) {
+  pinObjectBookingOpenInfoPanel(evt);
+};
+
+/*
  * Create location booking on map
  */
 var pinBlockAll = document.querySelector('.tokyo__pin-map');
@@ -93,10 +143,14 @@ for (i = 0; i < 8; i++) {
   var pinObjectBooking = document.createElement('div');
 
   pinObjectBooking.className = 'pin';
-  pinObjectBooking.style = 'left: ' + ObjectBooking[i].offer.address.location.x + 'px; top: ' + ObjectBooking[i].offer.address.location.y + 'px';
-  pinObjectBooking.innerHTML = '<img src="' + ObjectBooking[i].author.avatar + '" class="rounded" width="40" height="40">';
+  pinObjectBooking.style = 'left: ' + objectBookings[i].offer.address.location.x + 'px; top: ' + objectBookings[i].offer.address.location.y + 'px';
+  pinObjectBooking.innerHTML = '<img src="' + objectBookings[i].author.avatar + '" class="rounded" width="40" height="40" tabindex="' + (i + 10) + '">';
+  pinObjectBooking.value = i;
 
   fragmentPinBlockAll.appendChild(pinObjectBooking);
+
+  pinObjectBooking.addEventListener('click', pinObjectBookingClickHandler);
+  pinObjectBooking.addEventListener('keydown', pinObjectBookingKeydownHandler);
 }
 
 pinBlockAll.appendChild(fragmentPinBlockAll);
@@ -104,30 +158,37 @@ pinBlockAll.appendChild(fragmentPinBlockAll);
 /*
  * Show on info panel first object booking from array
  */
-var templateObjectBooking = document.querySelector('#lodge-template');
-var elementTemplateObjectBooking = templateObjectBooking.content.cloneNode(true);
+var showObjectBookingOnInfoPanel = function (objectBooking) {
+  var templateObjectBooking = document.querySelector('#lodge-template');
+  var elementTemplateObjectBooking = templateObjectBooking.content.cloneNode(true);
 
-elementTemplateObjectBooking.querySelector('.lodge__title').textContent = ObjectBooking[0].offer.title;
-elementTemplateObjectBooking.querySelector('.lodge__address').textContent = ObjectBooking[0].offer.address.location.x + ' ' + ObjectBooking[0].offer.address.location.y;
+  elementTemplateObjectBooking.querySelector('.lodge__title').textContent = objectBooking.offer.title;
+  elementTemplateObjectBooking.querySelector('.lodge__address').textContent = objectBooking.offer.address.location.x + ' ' + objectBooking.offer.address.location.y;
 
-elementTemplateObjectBooking.querySelector('.lodge__price').innerHTML = ObjectBooking[0].offer.price + ' &#x20bd;/ночь';
+  elementTemplateObjectBooking.querySelector('.lodge__price').innerHTML = objectBooking.offer.price + ' &#x20bd;/ночь';
 
-elementTemplateObjectBooking.querySelector('.lodge__type').textContent = convertBookingOfferType(ObjectBooking[0].offer.type);
+  elementTemplateObjectBooking.querySelector('.lodge__type').textContent = convertBookingOfferType(objectBooking.offer.type);
 
-elementTemplateObjectBooking.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + ObjectBooking[0].offer.guests + ' гостей в ' + ObjectBooking[0].offer.rooms + ' комнатах';
-elementTemplateObjectBooking.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + ObjectBooking[0].offer.checkin + ', выезд до ' + ObjectBooking[0].offer.checkout;
+  elementTemplateObjectBooking.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + objectBooking.offer.guests + ' гостей в ' + objectBooking.offer.rooms + ' комнатах';
+  elementTemplateObjectBooking.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + objectBooking.offer.checkin + ', выезд до ' + objectBooking.offer.checkout;
 
-elementTemplateObjectBooking.querySelector('.lodge__features').innerHTML = splitBookingOfferFeatures(ObjectBooking[0].offer.features);
-elementTemplateObjectBooking.querySelector('.lodge__description').textContent = ObjectBooking[0].description;
+  elementTemplateObjectBooking.querySelector('.lodge__features').innerHTML = splitBookingOfferFeatures(objectBooking.offer.features);
+  elementTemplateObjectBooking.querySelector('.lodge__description').textContent = objectBooking.description;
 
-var pools = document.querySelectorAll('.dialog');
-var blocks = document.querySelectorAll('.dialog__panel');
+  var pools = document.querySelectorAll('.dialog');
+  var blocks = document.querySelectorAll('.dialog__panel');
 
-pools[0].removeChild(blocks[0]);
-pools[0].appendChild(elementTemplateObjectBooking);
+  pools[0].removeChild(blocks[0]);
+  pools[0].appendChild(elementTemplateObjectBooking);
 
-/*
- * Change avatar first object booking over info panel
- */
-var avatar = document.querySelector('.dialog__title');
-avatar.children[0].src = ObjectBooking[0].author.avatar;
+  /*
+   * Change avatar first object booking over info panel
+   */
+  var avatar = document.querySelector('.dialog__title');
+  avatar.children[0].src = objectBooking.author.avatar;
+};
+
+showObjectBookingOnInfoPanel(objectBookings[0]);
+
+var infoPanelButtonClose = document.querySelector('.dialog__close');
+infoPanelButtonClose.addEventListener('click', infoPanelButtonCloseClickHandler);
