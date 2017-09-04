@@ -233,6 +233,20 @@ fieldType.addEventListener('input', function (evt) {
   }
 });
 
+fieldRooms.addEventListener('invalid', function (evt) {
+  if (!fieldRooms.validity.valid) {
+    if (fieldRooms.validity.tooShort) {
+      fieldRooms.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else if (fieldRooms.validity.tooLong) {
+      fieldRooms.setCustomValidity('Имя не должно превышать 25-ти символов');
+    } else if (fieldRooms.validity.valueMissing) {
+      fieldRooms.setCustomValidity('Обязательное поле');
+    }
+  } else {
+    fieldRooms.setCustomValidity('');
+  }
+});
+
 fieldRooms.addEventListener('input', function (evt) {
   var target = evt.target;
   if (target.value === '1') {
@@ -247,7 +261,9 @@ fieldRooms.addEventListener('input', function (evt) {
   if (target.value === '100') {
     fieldCapacity.value = 0;
   }
+//  target.setCustomValidity('');
 });
+
 /*
 adInput.addEventListener('invalid', function () {
   if (!userNameInput.validity.valid) {
