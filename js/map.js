@@ -202,7 +202,6 @@ var fieldType = document.getElementById('type');
 var fieldPrice = document.getElementById('price');
 var fieldRoom = document.getElementById('room_number');
 var fieldCapacity = document.getElementById('capacity');
-var formBooking = document.getElementsByClassName('notice__form');
 
 fieldTimeIn.addEventListener('input', function (evt) {
   var target = evt.target;
