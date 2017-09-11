@@ -1,8 +1,8 @@
 'use strict';
 
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
-
+/* var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13; */
+/*
 var BOOKING_OFFER_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 
 var BOOKING_OFFER_TYPES = ['flat', 'house', 'bungalo'];
@@ -32,7 +32,8 @@ var generateUniqueRandValue = function (randValueArray) {
   }
   return randValueArray;
 };
-
+*/
+/*
 var convertBookingOfferType = function (bookingOfferType) {
   switch (bookingOfferType) {
     case 'flat':
@@ -53,10 +54,12 @@ var splitBookingOfferFeatures = function (BookingOfferFeatures) {
   }
   return outBookingOfferFeatures;
 };
-
+*/
 /*
  * Generate 8 object booking and init random value
  */
+
+/*
 var objectBookings = [];
 
 for (var i = 0; i < 8; i++) {
@@ -84,12 +87,12 @@ for (var i = 0; i < 8; i++) {
     },
   };
 }
-
+*/
 /*
  * Event Handler Info panel
  */
 
-var pinObjectBookingCloseInfoPanel = function () {
+/* var pinObjectBookingCloseInfoPanel = function () {
   var deactivePin = document.getElementsByClassName('pin--active');
   if (deactivePin.length !== 0) {
     deactivePin[0].classList.remove('pin--active');
@@ -130,7 +133,7 @@ var pinObjectBookingKeydownHandler = function (evt) {
 
 var pinObjectBookingClickHandler = function (evt) {
   pinObjectBookingOpenInfoPanel(evt);
-};
+}; */
 
 /*
  * Create location booking on map
@@ -138,13 +141,13 @@ var pinObjectBookingClickHandler = function (evt) {
 var pinBlockAll = document.querySelector('.tokyo__pin-map');
 
 var fragmentPinBlockAll = document.createDocumentFragment();
-
+var i;
 for (i = 0; i < 8; i++) {
   var pinObjectBooking = document.createElement('div');
 
   pinObjectBooking.className = 'pin';
-  pinObjectBooking.style = 'left: ' + objectBookings[i].offer.address.location.x + 'px; top: ' + objectBookings[i].offer.address.location.y + 'px';
-  pinObjectBooking.innerHTML = '<img src="' + objectBookings[i].author.avatar + '" class="rounded" width="40" height="40" tabindex="' + (i + 10) + '">';
+  pinObjectBooking.style = 'left: ' + window.data.objectBookings[i].offer.address.location.x + 'px; top: ' + window.data.objectBookings[i].offer.address.location.y + 'px';
+  pinObjectBooking.innerHTML = '<img src="' + window.data.objectBookings[i].author.avatar + '" class="rounded" width="40" height="40" tabindex="' + (i + 10) + '">';
   pinObjectBooking.value = i;
 
   fragmentPinBlockAll.appendChild(pinObjectBooking);
@@ -157,7 +160,7 @@ pinBlockAll.appendChild(fragmentPinBlockAll);
 
 /*
  * Show on info panel first object booking from array
- */
+ *//*
 var showObjectBookingOnInfoPanel = function (objectBooking) {
   var templateObjectBooking = document.querySelector('#lodge-template');
   var elementTemplateObjectBooking = templateObjectBooking.content.cloneNode(true);
@@ -181,14 +184,15 @@ var showObjectBookingOnInfoPanel = function (objectBooking) {
   pools[0].removeChild(blocks[0]);
   pools[0].appendChild(elementTemplateObjectBooking);
 
-  /*
-   * Change avatar first object booking over info panel
-   */
+
+  * Change avatar first object booking over info panel
+
   var avatar = document.querySelector('.dialog__title');
   avatar.children[0].src = objectBooking.author.avatar;
 };
+*/
 
-showObjectBookingOnInfoPanel(objectBookings[0]);
+showObjectBookingOnInfoPanel(window.data.objectBookings[0]);
 
 var infoPanelButtonClose = document.querySelector('.dialog__close');
 infoPanelButtonClose.addEventListener('click', infoPanelButtonCloseClickHandler);
@@ -196,6 +200,7 @@ infoPanelButtonClose.addEventListener('click', infoPanelButtonCloseClickHandler)
 /*
  * Tuning input form
  */
+ /*
 var fieldTimeIn = document.getElementById('timein');
 var fieldTimeOut = document.getElementById('timeout');
 var fieldType = document.getElementById('type');
@@ -248,3 +253,4 @@ fieldRoom.addEventListener('input', function (evt) {
     fieldCapacity.value = 0;
   }
 });
+*/
