@@ -17,11 +17,11 @@
 
     infoPanel.classList.add('hidden');
   };
-
+/*
   var infoPanelButtonCloseClickHandler = function () {
     pinObjectBookingCloseInfoPanel();
   };
-
+*/
   var pinObjectBookingOpenInfoPanel = function (evt) {
     var deactivePin = document.getElementsByClassName('pin--active');
     if (deactivePin.length !== 0) {
@@ -72,4 +72,10 @@
   }
 
   pinBlockAll.appendChild(fragmentPinBlockAll);
+
+  window.pin = {
+    infoPanelButtonCloseClickHandler: function () {
+      pinObjectBookingCloseInfoPanel();
+    }
+  };
 })();

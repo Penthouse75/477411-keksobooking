@@ -36,7 +36,7 @@
 
   window.data = {
     objectBookings: []
-  }
+  };
 
   for (var i = 0; i < 8; i++) {
     window.data.objectBookings[i] = {
