@@ -30,7 +30,7 @@
     var infoPanel = document.querySelector('.dialog');
     infoPanel.classList.remove('hidden');
 
-    window.card.showObjectBookingOnInfoPanel(window.data.objectBookings[currentPin.value]);
+    window.showCard.showCard(window.data.objectBookings[currentPin.value]);
   };
 
   var pinObjectBookingKeydownHandler = function (evt) {
